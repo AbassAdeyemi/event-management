@@ -103,11 +103,12 @@ defmodule EventManagement.Accounts do
   end
 
   def authenticate_user(email, password) do
-    user = Repo.get_by(User, email: email)
-
-    case Argon2.verify_pass(password, user.password_hash) do
-      {:ok, user} -> {:ok, user}
-      _ -> :error
+    user = Repo.get_by!(User, email: email)
+    IO.puts(user.password_hash)
+    if user && Argon2.verify_pass(password, user.password_hash) do
+      {:ok, user}
+    else
+      :error
     end
   end
 end

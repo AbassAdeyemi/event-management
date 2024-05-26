@@ -12,4 +12,8 @@ defmodule EventManagementWeb.ErrorJSON do
   def render(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
+
+  # def render("404.json", _assigns ) do
+  #   %{errors: %{message: message}}
+  # end
 end

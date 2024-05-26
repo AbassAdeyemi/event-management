@@ -15,10 +15,10 @@ defmodule EventManagement.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password_hash])
-    |> validate_required([:email, :password_hash])
+    |> cast(attrs, [:email, :password])
+    |> validate_required([:email, :password])
     |> unique_constraint(:email)
-    |> hash_password()
+    |> hash_password
   end
 
   defp hash_password(changeset) do
