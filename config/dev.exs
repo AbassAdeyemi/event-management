@@ -8,7 +8,9 @@ config :event_management, EventManagement.Repo,
   database: "event_management_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -67,3 +69,7 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+config :event_management, EventManagement.Guardian,
+issuer: "event_management",
+secret: "1uoy/AbrtzLM/jZEtBNOMFr4sypEbVwb58lBUKvL4ge46CGQ2tnvZGZEBf/8A1bG"
