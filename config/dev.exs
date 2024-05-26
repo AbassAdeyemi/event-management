@@ -72,4 +72,4 @@ config :swoosh, :api_client, false
 
 config :event_management, EventManagement.Guardian,
 issuer: "event_management",
-secret: "1uoy/AbrtzLM/jZEtBNOMFr4sypEbVwb58lBUKvL4ge46CGQ2tnvZGZEBf/8A1bG"
+secret: System.getEnv("SECRET_KEY")
