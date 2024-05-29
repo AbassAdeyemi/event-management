@@ -8,6 +8,8 @@ defmodule EventManagement.Events do
 
   alias EventManagement.Events.Event
 
+  @acceptable_event_filters ["location", "tags"]
+
   @doc """
   Returns the list of events.
 
@@ -17,8 +19,9 @@ defmodule EventManagement.Events do
       [%Event{}, ...]
 
   """
-  def list_events(user_id) do
-    from(e in Event, where: e.user_id == ^user_id) |> Repo.all()
+  def list_events(params) do
+    where_query = get_unwanted_keys(params)
+    from(Event, where: ^where_query)  |> Repo.all()
   end
 
   @doc """
@@ -100,5 +103,24 @@ defmodule EventManagement.Events do
   """
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.changeset(event, attrs)
+  end
+
+  def get_event_by_id(id) do
+    Repo.get_by!(Event, id: id)
+  end
+
+  defp get_unwanted_keys(query_params) do
+    kw = Keyword.new()
+      map = Map.filter(query_params, fn {key, _value} ->
+      Enum.member?(@acceptable_event_filters, key)
+    end)
+
+    kw = Enum.reduce(map, kw, fn {key, value}, acc ->
+      Keyword.put(acc, String.to_atom(key), value)
+    end)
+
+    #  Enum.each(map, fn {key, value} -> Keyword.put(kw, String.to_atom(key), value) end)
+    IO.inspect(kw, label: "keyword_list")
+    kw
   end
 end

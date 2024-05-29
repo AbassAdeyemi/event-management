@@ -8,11 +8,10 @@ defmodule EventManagementWeb.EventController do
 
   action_fallback EventManagementWeb.FallbackController
 
-  plug AuthPipeline when action in [:show, :update, :delete]
-  def index(conn, _params) do
-    user = Guardian.Plug.current_resource(conn)
-    IO.inspect user
-    events = Events.list_events(user.id)
+  plug AuthPipeline when action in [:create, :update, :delete]
+
+  def index(conn, params) do
+    events = Events.list_events(params)
     render(conn, :index, events: events)
   end
 
@@ -51,4 +50,5 @@ defmodule EventManagementWeb.EventController do
       send_resp(conn, :no_content, "")
     end
   end
+
 end

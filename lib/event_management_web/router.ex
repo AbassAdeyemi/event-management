@@ -15,7 +15,9 @@ defmodule EventManagementWeb.Router do
     post "/users/login", UserController, :login
 
     pipe_through :auth
-    resources "/events", EventController
+    resources "/events", EventController,  except: [:new, :edit]
+
+    resources "/reservations", ReservationController, except: [:new, :edit]
   end
 
 end

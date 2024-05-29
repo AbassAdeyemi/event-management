@@ -18,7 +18,7 @@ defmodule EventManagementWeb.UserController do
   def login(conn, %{"email" => email, "password" => password}) do
     case  Accounts.authenticate_user(email, password) do
       {:ok, user} ->
-        {:ok, token, _claims} = Guardian.encode_and_sign(user)
+        {:ok, token, _claims} = Guardian.encode_and_sign(user, %{}, ttl: {30, :day})
         json(conn, %{token: token})
 
       :error ->
